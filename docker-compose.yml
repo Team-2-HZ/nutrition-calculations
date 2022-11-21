@@ -1,0 +1,11 @@
+version: "4"
+
+services:
+  frontend:
+    image: node:latest
+    volumes:
+      - ./nutri-plate-app:/app
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    command: bash -c "npm install && npm start"
