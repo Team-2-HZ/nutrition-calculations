@@ -1,8 +1,9 @@
-const APP_ID = "4e75f735";
-const APP_KEY = "d282ddce3ca102a4d55f4dd7370f1760";
+const APP_ID = process.env.REACT_APP_APP_ID;
+const APP_KEY = process.env.REACT_APP_APP_KEY;
 const foodsInfo = [];
 
 export async function getFood(food, grams) {
+  console.log(APP_ID, APP_KEY);
   //filter through the foodsInfo and check if food is already in it
   const filteredFoods = foodsInfo.filter((foodItem) => {
     // check if the food name is the same as the food name in the array and if weight is the same as the weight in the array
