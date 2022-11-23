@@ -7,6 +7,7 @@ import morgan from "morgan";
 import { getFood } from "../controllers/nutrition.js";
 import dotenv from "dotenv";
 dotenv.config({ path: "./.env" });
+const PORT = process.env.PORT || 3030;
 
 // defining the Express app
 const app = express();
@@ -37,7 +38,7 @@ app.use(morgan("combined"));
 router.post("/api/v1/nutrition", getFood);
 
 app.use("/", router);
-// starting the server
-app.listen(3042, () => {
-  console.log("listening on port 3042");
+
+app.listen(PORT, () => {
+  console.log(`server started on port ${PORT}`);
 });
