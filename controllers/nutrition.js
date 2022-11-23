@@ -1,6 +1,11 @@
-const APP_ID = "4e75f735";
-const APP_KEY = "d282ddce3ca102a4d55f4dd7370f1760";
-exports.getFood = async (req, res) => {
+import dotenv from "dotenv";
+import { saveFood } from "../models/supabase.js";
+dotenv.config({ path: "./.env" });
+//////////////////////////////////////////////////////////
+const APP_ID = process.env.APP_ID;
+const APP_KEY = process.env.APP_KEY;
+
+export async function getFood(req, res) {
   // get the food name from the request body
   const food = req.body.data.food;
   // get the grams from the request body
@@ -17,8 +22,9 @@ exports.getFood = async (req, res) => {
       nutritionData
     );
 
+    saveFood(foodDetailsWithNutrition);
+
     //log the food details
-    console.log(foodDetailsWithNutrition);
     res.status(200).send(foodDetailsWithNutrition);
   } catch (error) {
     return [];
@@ -118,4 +124,4 @@ exports.getFood = async (req, res) => {
     };
     return foodDetails;
   }
-};
+}
