@@ -6,7 +6,7 @@ const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function saveFood(food) {
-  const { error } = await supabase.from("nutrition").insert({
+  const { data, error } = await supabase.from("nutrition").insert({
     foodName: food.foodName,
     quantity: food.quantity,
     ENERC_KCAL: {
@@ -31,6 +31,7 @@ export async function saveFood(food) {
     },
     cautions: food.cautions,
   });
+  console.log(data);
   if (error) {
     console.log("There was an error: ", error);
   }
