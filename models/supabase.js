@@ -5,10 +5,7 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export async function saveFood(foodInput) {
-  // parse food as JSOn
-  const food = JSON.parse(foodInput);
-
+export async function saveFood(food) {
   const { data, error } = await supabase.from("nutrition").insert({
     foodName: food.foodName,
     quantity: food.quantity,
