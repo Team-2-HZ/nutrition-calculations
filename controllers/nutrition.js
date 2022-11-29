@@ -22,10 +22,11 @@ export async function getFood(req, res) {
       nutritionData
     );
 
+    console.log("foodDetailsWithNutrition", foodDetailsWithNutrition);
     saveFood(foodDetailsWithNutrition);
 
     //log the food details
-    res.status(200).send(foodDetailsWithNutrition);
+    // res.status(200).send(foodDetailsWithNutrition);
   } catch (error) {
     return [];
   }
@@ -34,9 +35,7 @@ export async function getFood(req, res) {
   async function getFoodInfo(food) {
     console.log("CALLING API 1");
     const URL = `https://api.edamam.com/api/food-database/v2/parser?ingr=${food}&app_id=${APP_ID}&app_key=${APP_KEY}`;
-    console.log("somethnig");
     const response = await fetch(URL);
-    console.log("somethnig else ");
     const data = await response.json();
     if (data) {
       // create an object with the food info

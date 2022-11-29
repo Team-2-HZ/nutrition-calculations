@@ -34,5 +34,6 @@ export async function saveFood(food) {
   console.log(data);
   if (error) {
     console.log("There was an error: ", error);
+    console.log(data);
   }
 }
