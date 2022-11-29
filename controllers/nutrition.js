@@ -26,7 +26,7 @@ export async function getFood(req, res) {
     saveFood(foodDetailsWithNutrition);
 
     //log the food details
-    // res.status(200).send(foodDetailsWithNutrition);
+    res.status(200).send(foodDetailsWithNutrition);
   } catch (error) {
     return [];
   }
