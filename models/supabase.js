@@ -9,26 +9,11 @@ export async function saveFood(food) {
   const { data, error } = await supabase.from("nutrition").insert({
     foodName: food.foodName,
     quantity: food.quantity,
-    ENERC_KCAL: {
-      fat: food.ENERC_KCAL.calories,
-      unit: food.ENERC_KCAL.unit,
-    },
-    FAT: {
-      fat: food.FAT.fat,
-      unit: food.FAT.unit,
-    },
-    PROTEIN: {
-      protein: food.PROTEIN.protein,
-      unit: food.PROTEIN.unit,
-    },
-    SUGAR: {
-      sugar: food.SUGAR.sugar,
-      unit: food.SUGAR.unit,
-    },
-    CARBS: {
-      carbs: food.CARBS.carbs,
-      unit: food.CARBS.unit,
-    },
+    ENERC_KCAL: food.ENERC_KCAL.calories,
+    FAT: food.FAT.fat,
+    PROTEIN: food.PROTEIN.protein,
+    SUGAR: food.SUGAR.sugar,
+    CARBS: food.CARBS.carbs,
     cautions: food.cautions,
   });
   console.log(data);
@@ -36,4 +21,12 @@ export async function saveFood(food) {
     console.log("There was an error: ", error);
     console.log(data);
   }
+}
+
+export async function getFoodFromSupabase(req, res) {
+  const { data, error } = await supabase.from("nutrition").select("*");
+  if (error) {
+    console.log("There was an error: ", error);
+  }
+  res.send(data);
 }

@@ -1,11 +1,13 @@
-import express from "express";
 import bodyParser from "body-parser";
+import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 // register controllers
 import { getFood } from "../controllers/nutrition.js";
+import { getFoodFromSupabase } from "../models/supabase.js";
 import dotenv from "dotenv";
+
 dotenv.config({ path: "./.env" });
 const PORT = process.env.PORT || 3030;
 
@@ -36,6 +38,9 @@ app.use(morgan("combined"));
 
 // NUTRITION
 router.post("/api/v1/nutrition", getFood);
+
+// RETRIEVE FOOD FROM SUPABASE
+router.get("/api/v1/nutrition", getFoodFromSupabase);
 
 app.use("/", router);
 
