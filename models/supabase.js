@@ -9,11 +9,11 @@ export async function saveFood(food) {
   const { data, error } = await supabase.from("nutrition").insert({
     foodName: food.foodName,
     quantity: food.quantity,
-    ENERC_KCAL: food.ENERC_KCAL.calories,
-    FAT: food.FAT.fat,
-    PROTEIN: food.PROTEIN.protein,
-    SUGAR: food.SUGAR.sugar,
-    CARBS: food.CARBS.carbs,
+    ENERC_KCAL: food.ENERC_KCAL.calories.calories,
+    FAT: food.FAT.fat.fat,
+    PROTEIN: food.PROTEIN.protein.protein,
+    SUGAR: food.SUGAR.sugar.sugar,
+    CARBS: food.CARBS.carbs.carbs,
     cautions: food.cautions,
   });
   console.log(data);
