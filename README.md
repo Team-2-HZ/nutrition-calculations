@@ -14,11 +14,59 @@ This is an example of how to list things you need to use the software and how to
 
 ## API Endpoints:
 
-### /test
+### /nutrition/summary?days=x
 
-      returns planet data sourced from swapi
+      returns the nutritional info for the last x days in percent
       requires:
         Authorization: Bearer
+        days: int,
+      response:
+        {
+          data: {
+            kcal: int,
+            fat: int,
+            sat_fat: int,
+            carbs: int,
+            sugar: int,
+            fiber: int,
+            protein: int
+          }
+        }
+        
+### /nutrition/meal/:id
+
+      returns the nutritional info for the last meal and it's ingredients
+      requires:
+        Authorization: Bearer
+        id: id | FK,
+      response:
+        {
+          percentage: {
+            kcal: int,
+            fat: int,
+            sat_fat: int,
+            carbs: int,
+            sugar: int,
+            fiber: int,
+            protein: int
+          },
+          ingredients: {[
+            {
+              type: string,
+              kcal: int,
+              fat: int,
+              sat_fat: int,
+              carbs: int,
+              sugar: int,
+              fiber: int,
+              protein: int
+            },
+            {
+              type: string,
+              ...
+            },
+          ]}
+        }
 
 # Nutrition Calculation API
 
