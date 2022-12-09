@@ -4,7 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 // register controllers
-import { getFood } from "../controllers/nutrition.js";
+import { getNutrition } from "../controllers/nutrition.js";
 import { getFoodFromSupabase } from "../models/supabase.js";
 import dotenv from "dotenv";
 
@@ -36,8 +36,8 @@ app.use(cors());
 // adding morgan to log HTTP requests
 app.use(morgan("combined"));
 
-// NUTRITION
-router.post("/api/v1/nutrition", getFood);
+// GET NUTRITION INFO FROM API
+router.post("/api/v1/nutrition", getNutrition);
 
 // RETRIEVE FOOD FROM SUPABASE
 router.get("/api/v1/nutrition", getFoodFromSupabase);

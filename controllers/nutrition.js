@@ -5,7 +5,7 @@ dotenv.config({ path: "./.env" });
 const APP_ID = process.env.APP_ID;
 const APP_KEY = process.env.APP_KEY;
 
-export async function getFood(req, res) {
+export async function getNutrition(req, res) {
   // get the food name from the request body
   const food = req.body.data.food;
   // get the grams from the request body
@@ -72,6 +72,7 @@ export async function getFood(req, res) {
 
     const nutritionData = await nutritionDataRaw.json();
 
+    console.log("DONE CALLING API 2", nutritionData);
     return nutritionData;
   }
 
