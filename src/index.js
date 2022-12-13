@@ -44,6 +44,10 @@ router.get("/api/v1/nutrition", getFoodFromSupabase);
 
 app.use("/", router);
 
+router.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);
 });
