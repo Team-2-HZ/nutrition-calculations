@@ -5,7 +5,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 // register controllers
 import { getNutrition } from "../controllers/nutrition.js";
-import { getFoodFromSupabase } from "../models/supabase.js";
+import { makeNewMeal } from "../models/supabase.js";
 import dotenv from "dotenv";
 
 dotenv.config({ path: "./.env" });
@@ -27,8 +27,8 @@ router.use((req, res, next) => {
 // adding Helmet for API's security
 app.use(helmet());
 
-// using bodyParser to parse JSON bodies into JS objects
-app.use(bodyParser.json());
+// using bodyParser to parse JSON bodies into JS objects and plain text
+app.use(bodyParser.json(["application/json", "text/plain"]));
 
 // enabling CORS for all requests
 app.use(cors());
@@ -40,7 +40,7 @@ app.use(morgan("combined"));
 router.post("/api/v1/nutrition", getNutrition);
 
 // RETRIEVE FOOD FROM SUPABASE
-router.get("/api/v1/nutrition", getFoodFromSupabase);
+router.get("/api/v1/meals", makeNewMeal);
 
 app.use("/", router);
 
