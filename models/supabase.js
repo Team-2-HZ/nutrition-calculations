@@ -70,7 +70,7 @@ export async function makeNewMeal(req, res) {
   // create a new meal row in the database
   const { data, error } = await supabase
     .from("meals")
-    .insert({ name: "Breakfast", nutritions: mealNutrition });
+    .insert({ name: req.body.name, nutritions: mealNutrition });
   if (error) {
     console.log("There was an error: ", error);
   }
@@ -159,7 +159,7 @@ export async function summary(req, res) {
 
   // craete a new date that is days days ago
   const date = new Date();
-  date.setDate(date.getDate() - 7);
+  date.setDate(date.getDate() - days);
   const dateStr = date.toISOString().split("T")[0];
   console.log(dateStr);
   // create time
@@ -183,7 +183,7 @@ export async function summary(req, res) {
     if (key === "cautions") {
       summary[key] = totalNutrition[key];
     } else {
-      const perDay = totalNutrition[key] / 7;
+      const perDay = totalNutrition[key] / days;
       summary[key] = (perDay / dailyNutritionMale[key]) * 100;
     }
   }
