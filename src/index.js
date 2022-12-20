@@ -47,7 +47,7 @@ router.post("/api/v1/nutrition", getNutrition);
 // MAKE NEW MEAL
 router.post("/api/v1/meals", makeNewMeal);
 
-// GET NULL MEALS
+// GET EITHER ALL NULL NUTRITION ENTRIES OR ALL ENTRIES FOR A SPECIFIC MEAL ID
 router.get("/api/v1/ingredients", getNutritionEntries);
 
 // GET MEAL SUMMARY
