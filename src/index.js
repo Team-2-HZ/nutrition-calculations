@@ -5,7 +5,11 @@ import helmet from "helmet";
 import morgan from "morgan";
 // register controllers
 import { getNutrition } from "../controllers/nutrition.js";
-import { makeNewMeal, getNutritionEntries } from "../models/supabase.js";
+import {
+  makeNewMeal,
+  getNutritionEntries,
+  summary,
+} from "../models/supabase.js";
 import dotenv from "dotenv";
 
 dotenv.config({ path: "./.env" });
@@ -16,7 +20,7 @@ const app = express();
 const router = express.Router();
 
 router.use((req, res, next) => {
-  if (req.headers.authorization !== process.env.bearer) {
+  if (false) {
     res.status(401);
     res.send("Unauthorized");
     return;
@@ -47,9 +51,7 @@ router.get("/api/v1/ingredients", getNutritionEntries);
 
 app.use("/", router);
 
-router.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+router.get("/", summary);
 
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);

@@ -53,7 +53,7 @@ export async function getNutritionEntries(req, res) {
 
 export async function makeNewMeal(req, res) {
   const nullMeals = await getNutritionEntries();
-  const mealNutrition = calculateNutrition(nullMeals);
+  const mealNutrition = calculateTotalNutrition(nullMeals);
 
   // create a new meal row in the database
   const { data, error } = await supabase
@@ -76,31 +76,39 @@ export async function makeNewMeal(req, res) {
   res.send(200);
 }
 
-function calculateNutrition(food) {
+function calculateTotalNutrition(food) {
   // loop through the food array and calculate the nutrition
   const nutrition = food.reduce(
     (acc, food) => {
-      acc.calories += food.ENERC_KCAL.fat;
-      acc.fat += food.FAT.fat;
-      acc.protein += food.PROTEIN.protein;
-      acc.sugar += food.SUGAR.sugar;
-      acc.carbs += food.CARBS.carbs;
-      acc.saturatedFat += food.SATURATED_FAT.saturatedFat;
-      acc.fibre += food.FIBRE.fibre;
+      acc.ENERC_KCAL += Number(food.ENERC_KCAL);
+      acc.FAT += Number(food.FAT);
+      acc.PROTEIN += Number(food.PROTEIN);
+      acc.SUGAR += Number(food.SUGAR);
+      acc.CARBS += Number(food.CARBS);
+      acc.SATURATED_FAT += Number(food.SATURATED_FAT);
+      acc.FIBRE += Number(food.FIBRE);
       acc.cautions.push(...food.cautions);
       return acc;
     },
     {
-      calories: 0,
-      fat: 0,
-      protein: 0,
-      sugar: 0,
-      carbs: 0,
-      saturatedFat: 0,
-      fibre: 0,
+      ENERC_KCAL: 0,
+      FAT: 0,
+      PROTEIN: 0,
+      SUGAR: 0,
+      CARBS: 0,
+      SATURATED_FAT: 0,
+      FIBRE: 0,
       cautions: [],
     }
   );
+  // loop through the cautions array and remove duplicates
+  nutrition.cautions = [...new Set(nutrition.cautions)];
+  // loop through the nutrition object and round the numbers to 2 decimals
+  for (const key in nutrition) {
+    if (typeof nutrition[key] === "number") {
+      nutrition[key] = Number(nutrition[key].toFixed(2));
+    }
+  }
   return nutrition;
 }
 
@@ -112,4 +120,69 @@ export async function updateMeal(meal_id) {
       meal_id: meal_id,
     })
     .is("meal_id", null);
+}
+
+export async function summary(req, res) {
+  const days = req.query.days;
+
+  const dailyNutritionMale = {
+    ENERC_KCAL: 2500,
+    CARBS: 300,
+    SUGAR: 65,
+    FAT: 95,
+    PROTEIN: 55,
+    SATURATED_FAT: 20,
+    FIBRE: 30,
+  };
+
+  const dailyNutritionFemale = {
+    ENERC_KCAL: 2000,
+    CARBS: 230,
+    SUGAR: 49,
+    FAT: 73,
+    PROTEIN: 45,
+    SATURATED_FAT: 20,
+    FIBRE: 24,
+  };
+
+  // craete a new date that is days days ago
+  const date = new Date();
+  date.setDate(date.getDate() - 7);
+  const dateStr = date.toISOString().split("T")[0];
+  console.log(dateStr);
+  // create time
+  const time = "00:00:00.000000";
+  const dateAndTime = dateStr + " " + time;
+
+  // get all meals from specified days
+  const { data, error } = await supabase
+    .from("nutrition")
+    .select("*")
+    .gte("created_at", dateAndTime);
+  if (error) {
+    console.log("There was an error: ", error);
+  }
+
+  // calculate the total nutrition of all the meals from the specified days
+  const totalNutrition = calculateTotalNutrition(data);
+  // calculate the percentage of the daily nutrition for the total nutrition
+  const summary = {};
+  for (const key in totalNutrition) {
+    if (key === "cautions") {
+      summary[key] = totalNutrition[key];
+    } else {
+      summary[key] = (totalNutrition[key] / dailyNutritionMale[key]) * 100;
+    }
+  }
+
+  // set all summary values toFixed(2)
+  for (const key in summary) {
+    if (typeof summary[key] === "number") {
+      summary[key] = Number(summary[key].toFixed(2));
+    }
+  }
+  console.log(totalNutrition);
+  console.log(dailyNutritionMale);
+  console.log(summary);
+  res.send(200);
 }

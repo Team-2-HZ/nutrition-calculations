@@ -22,7 +22,7 @@ export async function getNutrition(req, res) {
       nutritionData
     );
 
-    console.log("foodDetailsWithNutrition", foodDetailsWithNutrition);
+    // console.log("foodDetailsWithNutrition", foodDetailsWithNutrition);
     saveFood(foodDetailsWithNutrition);
 
     //log the food details
@@ -33,7 +33,7 @@ export async function getNutrition(req, res) {
 
   // function to get get food info for a food
   async function getFoodInfo(food) {
-    console.log("CALLING API 1");
+    // console.log("CALLING API 1");
     const URL = `https://api.edamam.com/api/food-database/v2/parser?ingr=${food}&app_id=${APP_ID}&app_key=${APP_KEY}`;
     const response = await fetch(URL);
     const data = await response.json();
@@ -47,7 +47,7 @@ export async function getNutrition(req, res) {
 
   // function to get get nutrition info for a food
   async function getNutritionInfo(foodDetails, grams) {
-    console.log("CALLING API 2");
+    // console.log("CALLING API 2");
     // check if the food is in the cache
 
     const URL = `https://api.edamam.com/api/food-database/v2/nutrients?app_id=${APP_ID}&app_key=${APP_KEY}`;
@@ -72,7 +72,7 @@ export async function getNutrition(req, res) {
 
     const nutritionData = await nutritionDataRaw.json();
 
-    console.log("DONE CALLING API 2", nutritionData);
+    // console.log("DONE CALLING API 2", nutritionData);
     return nutritionData;
   }
 
