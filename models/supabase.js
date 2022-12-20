@@ -25,22 +25,34 @@ export async function saveFood(food) {
   }
 }
 
-export async function getNullmeals(req, res) {
-  // get all the database entries where meal_id is null
-  const { data, error } = await supabase
-    .from("nutrition")
-    .select("*")
-    .is("meal_id", null);
-  // create a new meal row in the database
-  if (error) {
-    console.log("There was an error: ", error);
+export async function getNutritionEntries(req, res) {
+  if (req.query.mealId === undefined) {
+    // get all the database entries where meal_id is null
+    const { data, error } = await supabase
+      .from("nutrition")
+      .select("*")
+      .is("meal_id", null);
+    if (error) {
+      console.log("There was an error: ", error);
+    }
+    res.send(data);
+    return data;
+  } else {
+    // get all the database entries where meal_id === req.query.mealId
+    const { data, error } = await supabase
+      .from("nutrition")
+      .select("*")
+      .eq("meal_id", req.query.mealId);
+    if (error) {
+      console.log("There was an error: ", error);
+    }
+    res.send(data);
+    return data;
   }
-  res.send(data);
-  return data;
 }
 
 export async function makeNewMeal(req, res) {
-  const nullMeals = await getNullmeals();
+  const nullMeals = await getNutritionEntries();
   const mealNutrition = calculateNutrition(nullMeals);
 
   // create a new meal row in the database
