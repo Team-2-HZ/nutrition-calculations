@@ -18,10 +18,12 @@ This is an example of how to list things you need to use the software and how to
 
 ### **/nutrition/summary?days=x**
 
-returns the nutritional info for the last x days in percent\
-requires:\
-Authorization: Bearer\
-days: int,\
+returns the nutritional info for the last x days in percent
+
+      requires:\
+      Authorization: Bearer\
+      days: int,\
+
 response:
 
 ```js
@@ -40,11 +42,12 @@ response:
 
 ### **/nutrition/meal/:id**
 
-returns the nutritional info for the last meal and it's ingredients\
-requires:\
-Authorization: Bearer\
-id: id | FK,\
-response:
+returns the nutritional info for the last meal and it's ingredients
+
+      requires:\
+      Authorization: Bearer\
+      id: id | FK,\
+      response:
 
 ```js
 {
@@ -81,9 +84,10 @@ response:
 
 #### Method: POST
 
-creates a new meal entry in the database with all the nutritional entries that do not yet have a specified meal_id to them and then it updates their meal_id to the newly craeted meal.\
-requires:\
-Authorization: Bearer
+creates a new meal entry in the database with all the nutritional entries that do not yet have a specified meal_id to them and then it updates their meal_id to the newly craeted meal.
+
+    requires:\
+    Authorization: Bearer
 
 ```json
 {
@@ -97,10 +101,10 @@ Authorization: Bearer
 
 if a meal ID is specified it returns all the nutritional entries that have that ID, else it returns all the nutriotional entries who's meai_id is unidentified
 
-requires:\
-Authorization: Bearer
+    requires:\
+    Authorization: Bearer
 
-example response:
+    example response:
 
 ```json
 {
