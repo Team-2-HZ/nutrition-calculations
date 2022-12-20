@@ -5,7 +5,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 // register controllers
 import { getNutrition } from "../controllers/nutrition.js";
-import { makeNewMeal } from "../models/supabase.js";
+import { makeNewMeal, getNullmeals } from "../models/supabase.js";
 import dotenv from "dotenv";
 
 dotenv.config({ path: "./.env" });
@@ -39,8 +39,11 @@ app.use(morgan("combined"));
 // GET NUTRITION INFO FROM API
 router.post("/api/v1/nutrition", getNutrition);
 
-// RETRIEVE FOOD FROM SUPABASE
-router.get("/api/v1/meals", makeNewMeal);
+// MAKE NEW MEAL
+router.post("/api/v1/meals", makeNewMeal);
+
+// GET NULL MEALS
+router.get("/api/v1/meals", getNullmeals);
 
 app.use("/", router);
 

@@ -33,6 +33,7 @@ export async function getNullmeals(req, res) {
   if (error) {
     console.log("There was an error: ", error);
   }
+  res.send(data);
   return data;
 }
 
@@ -43,7 +44,7 @@ export async function makeNewMeal(req, res) {
   // create a new meal row in the database
   const { data, error } = await supabase
     .from("meals")
-    .insert({ name: "Paella", nutritions: mealNutrition });
+    .insert({ name: req.body.name, nutritions: mealNutrition });
   if (error) {
     console.log("There was an error: ", error);
   }
