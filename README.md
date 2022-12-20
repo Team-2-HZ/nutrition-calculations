@@ -99,11 +99,9 @@ creates a new meal entry in the database with all the nutritional entries that d
 {
   Authorization: Bearer;
 }
-```
 
-```json
-{
-  "name": "string"
+body {
+  name: "string"
 }
 ```
 
