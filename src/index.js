@@ -9,6 +9,7 @@ import {
   makeNewMeal,
   getNutritionEntries,
   summary,
+  getMeal,
 } from "../models/supabase.js";
 import dotenv from "dotenv";
 
@@ -20,7 +21,7 @@ const app = express();
 const router = express.Router();
 
 router.use((req, res, next) => {
-  if (false) {
+  if (req.headers.authorization !== process.env.bearer) {
     res.status(401);
     res.send("Unauthorized");
     return;
@@ -48,6 +49,12 @@ router.post("/api/v1/meals", makeNewMeal);
 
 // GET NULL MEALS
 router.get("/api/v1/ingredients", getNutritionEntries);
+
+// GET MEAL SUMMARY
+router.get("/api/v1/nutrition/summary", summary);
+
+// GET SPECIFIC MEAL
+router.get("/api/v1/nutrition/meal", getMeal);
 
 app.use("/", router);
 

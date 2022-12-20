@@ -51,14 +51,26 @@ export async function getNutritionEntries(req, res) {
   }
 }
 
+async function getNullMeals() {
+  // get all the database entries where meal_id is null
+  const { data, error } = await supabase
+    .from("nutrition")
+    .select("*")
+    .is("meal_id", null);
+  if (error) {
+    console.log("There was an error: ", error);
+  }
+  return data;
+}
+
 export async function makeNewMeal(req, res) {
-  const nullMeals = await getNutritionEntries();
+  const nullMeals = await getNullMeals();
   const mealNutrition = calculateTotalNutrition(nullMeals);
 
   // create a new meal row in the database
   const { data, error } = await supabase
     .from("meals")
-    .insert({ name: req.body.name, nutritions: mealNutrition });
+    .insert({ name: "Breakfast", nutritions: mealNutrition });
   if (error) {
     console.log("There was an error: ", error);
   }
@@ -127,20 +139,20 @@ export async function summary(req, res) {
 
   const dailyNutritionMale = {
     ENERC_KCAL: 2500,
-    CARBS: 300,
-    SUGAR: 65,
     FAT: 95,
     PROTEIN: 55,
+    SUGAR: 65,
+    CARBS: 300,
     SATURATED_FAT: 20,
     FIBRE: 30,
   };
 
   const dailyNutritionFemale = {
     ENERC_KCAL: 2000,
-    CARBS: 230,
-    SUGAR: 49,
     FAT: 73,
     PROTEIN: 45,
+    SUGAR: 49,
+    CARBS: 230,
     SATURATED_FAT: 20,
     FIBRE: 24,
   };
@@ -171,7 +183,8 @@ export async function summary(req, res) {
     if (key === "cautions") {
       summary[key] = totalNutrition[key];
     } else {
-      summary[key] = (totalNutrition[key] / dailyNutritionMale[key]) * 100;
+      const perDay = totalNutrition[key] / 7;
+      summary[key] = (perDay / dailyNutritionMale[key]) * 100;
     }
   }
 
@@ -184,5 +197,28 @@ export async function summary(req, res) {
   console.log(totalNutrition);
   console.log(dailyNutritionMale);
   console.log(summary);
-  res.send(200);
+  res.send(summary);
+}
+
+export async function getMeal(req, res) {
+  if (req.query.mealId === undefined) {
+    // get all meals
+    const { data, error } = await supabase.from("meals").select("*");
+    res.send(data);
+    if (error) {
+      console.log("There was an error: ", error);
+    }
+  } else {
+    // get all the database entries where meal_id === req.query.mealId
+    const { data, error } = await supabase
+      .from("meals")
+      .select("*")
+      .eq("id", req.query.mealId);
+
+    // calculate the total nutrition of all the meals from the specified meal
+    if (error) {
+      console.log("There was an error: ", error);
+    }
+    res.send(data);
+  }
 }
