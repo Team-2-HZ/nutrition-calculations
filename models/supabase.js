@@ -14,6 +14,8 @@ export async function saveFood(food) {
     PROTEIN: food.PROTEIN.protein,
     SUGAR: food.SUGAR.sugar,
     CARBS: food.CARBS.carbs,
+    SATURATED_FAT: food.SATURATED_FAT.saturatedFat,
+    FIBRE: food.FIBRE.fibre,
     cautions: food.cautions,
   });
   // console.log(data);
@@ -71,6 +73,8 @@ function calculateNutrition(food) {
       acc.protein += food.PROTEIN.protein;
       acc.sugar += food.SUGAR.sugar;
       acc.carbs += food.CARBS.carbs;
+      acc.saturatedFat += food.SATURATED_FAT.saturatedFat;
+      acc.fibre += food.FIBRE.fibre;
       acc.cautions.push(...food.cautions);
       return acc;
     },
@@ -80,6 +84,8 @@ function calculateNutrition(food) {
       protein: 0,
       sugar: 0,
       carbs: 0,
+      saturatedFat: 0,
+      fibre: 0,
       cautions: [],
     }
   );

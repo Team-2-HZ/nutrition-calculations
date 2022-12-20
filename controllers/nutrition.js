@@ -101,24 +101,32 @@ export async function getNutrition(req, res) {
       quantity: grams,
       // add the nutrition info to the foodDetails object
       ENERC_KCAL: {
-        calories: nutritionData.totalNutrients.ENERC_KCAL.quantity,
+        calories: nutritionData.totalNutrients.ENERC_KCAL.quantity.toFixed(2),
         unit: nutritionData.totalNutrients.ENERC_KCAL.unit,
       },
       FAT: {
-        fat: nutritionData.totalNutrients.FAT.quantity,
+        fat: nutritionData.totalNutrients.FAT.quantity.toFixed(2),
         unit: nutritionData.totalNutrients.FAT.unit,
       },
       PROTEIN: {
-        protein: nutritionData.totalNutrients.PROCNT.quantity,
+        protein: nutritionData.totalNutrients.PROCNT.quantity.toFixed(2),
         unit: nutritionData.totalNutrients.PROCNT.unit,
       },
       SUGAR: {
-        sugar: nutritionData.totalNutrients.SUGAR.quantity,
+        sugar: nutritionData.totalNutrients.SUGAR.quantity.toFixed(2),
         unit: nutritionData.totalNutrients.SUGAR.unit,
       },
       CARBS: {
-        carbs: nutritionData.totalNutrients.CHOCDF.quantity,
+        carbs: nutritionData.totalNutrients.CHOCDF.quantity.toFixed(2),
         unit: nutritionData.totalNutrients.CHOCDF.unit,
+      },
+      SATURATED_FAT: {
+        saturatedFat: nutritionData.totalNutrients.FASAT.quantity.toFixed(2),
+        unit: nutritionData.totalNutrients.FASAT.unit,
+      },
+      FIBRE: {
+        fibre: nutritionData.totalNutrients.FIBTG.quantity.toFixed(2),
+        unit: nutritionData.totalNutrients.FIBTG.unit,
       },
       cautions: nutritionData.cautions,
     };
