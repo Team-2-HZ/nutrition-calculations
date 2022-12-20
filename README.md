@@ -21,8 +21,11 @@ This is an example of how to list things you need to use the software and how to
 returns the nutritional info for the last x days in percent
 
       requires:
+
+```js
       Authorization: Bearer
       days: int,
+```
 
 response:
 
@@ -45,9 +48,13 @@ response:
 returns the nutritional info for the last meal and it's ingredients
 
       requires:
+
+```js
       Authorization: Bearer
       id: id | FK,
-      response:
+```
+
+response:
 
 ```js
 {
@@ -87,7 +94,12 @@ returns the nutritional info for the last meal and it's ingredients
 creates a new meal entry in the database with all the nutritional entries that do not yet have a specified meal_id to them and then it updates their meal_id to the newly craeted meal.
 
     requires:
-    Authorization: Bearer
+
+```js
+{
+  Authorization: Bearer;
+}
+```
 
 ```json
 {
@@ -102,9 +114,12 @@ creates a new meal entry in the database with all the nutritional entries that d
 if a meal ID is specified it returns all the nutritional entries that have that ID, else it returns all the nutriotional entries who's meai_id is unidentified
 
     requires:
-    Authorization: Bearer
 
-    example response:
+```js
+Authorization: Bearer;
+```
+
+example response:
 
 ```json
 {
