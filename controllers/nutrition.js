@@ -22,7 +22,7 @@ export async function getNutrition(req, res) {
       nutritionData
     );
 
-    console.log("foodDetailsWithNutrition", foodDetailsWithNutrition);
+    // console.log("foodDetailsWithNutrition", foodDetailsWithNutrition);
     saveFood(foodDetailsWithNutrition);
 
     //log the food details
@@ -33,7 +33,7 @@ export async function getNutrition(req, res) {
 
   // function to get get food info for a food
   async function getFoodInfo(food) {
-    console.log("CALLING API 1");
+    // console.log("CALLING API 1");
     const URL = `https://api.edamam.com/api/food-database/v2/parser?ingr=${food}&app_id=${APP_ID}&app_key=${APP_KEY}`;
     const response = await fetch(URL);
     const data = await response.json();
@@ -47,7 +47,7 @@ export async function getNutrition(req, res) {
 
   // function to get get nutrition info for a food
   async function getNutritionInfo(foodDetails, grams) {
-    console.log("CALLING API 2");
+    // console.log("CALLING API 2");
     // check if the food is in the cache
 
     const URL = `https://api.edamam.com/api/food-database/v2/nutrients?app_id=${APP_ID}&app_key=${APP_KEY}`;
@@ -72,7 +72,7 @@ export async function getNutrition(req, res) {
 
     const nutritionData = await nutritionDataRaw.json();
 
-    console.log("DONE CALLING API 2", nutritionData);
+    // console.log("DONE CALLING API 2", nutritionData);
     return nutritionData;
   }
 
@@ -101,24 +101,32 @@ export async function getNutrition(req, res) {
       quantity: grams,
       // add the nutrition info to the foodDetails object
       ENERC_KCAL: {
-        calories: nutritionData.totalNutrients.ENERC_KCAL.quantity,
+        calories: nutritionData.totalNutrients.ENERC_KCAL.quantity.toFixed(2),
         unit: nutritionData.totalNutrients.ENERC_KCAL.unit,
       },
       FAT: {
-        fat: nutritionData.totalNutrients.FAT.quantity,
+        fat: nutritionData.totalNutrients.FAT.quantity.toFixed(2),
         unit: nutritionData.totalNutrients.FAT.unit,
       },
       PROTEIN: {
-        protein: nutritionData.totalNutrients.PROCNT.quantity,
+        protein: nutritionData.totalNutrients.PROCNT.quantity.toFixed(2),
         unit: nutritionData.totalNutrients.PROCNT.unit,
       },
       SUGAR: {
-        sugar: nutritionData.totalNutrients.SUGAR.quantity,
+        sugar: nutritionData.totalNutrients.SUGAR.quantity.toFixed(2),
         unit: nutritionData.totalNutrients.SUGAR.unit,
       },
       CARBS: {
-        carbs: nutritionData.totalNutrients.CHOCDF.quantity,
+        carbs: nutritionData.totalNutrients.CHOCDF.quantity.toFixed(2),
         unit: nutritionData.totalNutrients.CHOCDF.unit,
+      },
+      SATURATED_FAT: {
+        saturatedFat: nutritionData.totalNutrients.FASAT.quantity.toFixed(2),
+        unit: nutritionData.totalNutrients.FASAT.unit,
+      },
+      FIBRE: {
+        fibre: nutritionData.totalNutrients.FIBTG.quantity.toFixed(2),
+        unit: nutritionData.totalNutrients.FIBTG.unit,
       },
       cautions: nutritionData.cautions,
     };
