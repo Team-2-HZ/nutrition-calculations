@@ -10,6 +10,7 @@ import {
   getNutritionEntries,
   summary,
   getMeal,
+  summaryAbsoluteValues,
 } from "../models/supabase.js";
 import dotenv from "dotenv";
 
@@ -52,6 +53,8 @@ router.get("/api/v1/ingredients", getNutritionEntries);
 
 // GET MEAL SUMMARY
 router.get("/api/v1/nutrition/summary", summary);
+
+router.get("/api/v1/nutrition/summary/absolute", summaryAbsoluteValues);
 
 // GET SPECIFIC MEAL
 router.get("/api/v1/nutrition/meal", getMeal);
