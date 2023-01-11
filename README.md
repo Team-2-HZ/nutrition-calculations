@@ -45,7 +45,7 @@ response:
 
 ### **/nutrition/meal/:id**
 
-returns the nutritional info for the last meal and it's ingredients
+If no ID is specified it returns all meals, else it returns the meal with specified ID
 
       requires:
 
