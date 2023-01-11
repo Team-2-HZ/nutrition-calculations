@@ -138,24 +138,24 @@ export async function summary(req, res) {
   const days = req.query.days;
 
   const dailyNutritionMale = {
-    ENERC_KCAL: 2500,
-    FAT: 95,
-    PROTEIN: 55,
-    SUGAR: 65,
-    CARBS: 300,
-    SATURATED_FAT: 20,
-    FIBRE: 30,
+    ENERC_KCAL: req.query.KCAL ? req.query.KCAL : 2500,
+    FAT: req.query.FAT ? req.query.FAT : 95,
+    PROTEIN: req.query.PROTEIN ? req.query.PROTEIN : 55,
+    SUGAR: req.query.SUGAR ? req.query.SUGAR : 65,
+    CARBS: req.query.CARBS ? req.query.CARBS : 300,
+    SATURATED_FAT: req.query.SATURATED_FAT ? req.query.SATURATED_FAT : 20,
+    FIBRE: req.query.FIBRE ? req.query.FIBRE : 30,
   };
 
-  const dailyNutritionFemale = {
-    ENERC_KCAL: 2000,
-    FAT: 73,
-    PROTEIN: 45,
-    SUGAR: 49,
-    CARBS: 230,
-    SATURATED_FAT: 20,
-    FIBRE: 24,
-  };
+  // const dailyNutritionFemale = {
+  //   ENERC_KCAL: 2000,
+  //   FAT: 73,
+  //   PROTEIN: 45,
+  //   SUGAR: 49,
+  //   CARBS: 230,
+  //   SATURATED_FAT: 20,
+  //   FIBRE: 24,
+  // };
 
   // craete a new date that is days days ago
   const date = new Date();
@@ -198,6 +198,31 @@ export async function summary(req, res) {
   console.log(dailyNutritionMale);
   console.log(summary);
   res.send(summary);
+}
+
+export async function summaryAbsoluteValues(req, res) {
+  const days = req.query.days;
+
+  // craete a new date that is days days ago
+  const date = new Date();
+  date.setDate(date.getDate() - days);
+  const dateStr = date.toISOString().split("T")[0];
+  console.log(dateStr);
+  // create time
+  const time = "00:00:00.000000";
+  const dateAndTime = dateStr + " " + time;
+
+  // get all meals from specified days
+  const { data, error } = await supabase
+    .from("nutrition")
+    .select("*")
+    .gte("created_at", dateAndTime);
+  if (error) {
+    console.log("There was an error: ", error);
+  }
+  const totalNutrition = calculateTotalNutrition(data);
+
+  res.send(totalNutrition);
 }
 
 export async function getMeal(req, res) {
