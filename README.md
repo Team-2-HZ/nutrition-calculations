@@ -42,6 +42,59 @@ response:
           }
         }
 ```
+### **/nutrition/summary/absolute?days=x**
+
+
+
+returns the nutritional info for the last x days in absolute value
+
+
+
+      requires:
+
+
+
+```js
+
+      Authorization: Bearer
+
+      days: int,
+
+```
+
+
+
+response:
+
+
+
+```js
+
+        {
+
+          data: {
+
+            kcal: int,
+
+            fat: int,
+
+            sat_fat: int,
+
+            carbs: int,
+
+            sugar: int,
+
+            fiber: int,
+
+            protein: int
+
+          }
+
+        }
+
+```
+
+
 
 ### **/nutrition/meal/:id**
 
