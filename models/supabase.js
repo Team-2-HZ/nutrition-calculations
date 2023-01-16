@@ -70,7 +70,7 @@ export async function makeNewMeal(req, res) {
   // create a new meal row in the database
   const { data, error } = await supabase
     .from("meals")
-    .insert({ name: req.body.name, nutritions: mealNutrition });
+    .insert({ name: req.body.data.name, nutritions: mealNutrition });
   if (error) {
     console.log("There was an error: ", error);
   }
